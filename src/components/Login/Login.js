@@ -12,9 +12,19 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
   
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+    const identifier = setTimeout(() => {
+      console.log('form validation');
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    // Clean up function - Doesn't RUN on component initialisation
+    // On next change in dependencies (key stroke in this ex) runs before all the code in useEffect
+    return () => {
+      console.log('cleanup');
+      clearTimeout(identifier);
+    }
   }, [enteredEmail, enteredPassword])
 
   const emailChangeHandler = (event) => {
