@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../store/auth-context";
 
 // gets the last state snapshot + action dispatched ({type: x, val: y})
 const emailReducer = (state, action) => {
@@ -45,6 +46,9 @@ const Login = (props) => {
     isValid: null,
   })
   
+  // useContext Hook used to Consume the AuthContext
+  const authCtx = useContext(AuthContext);
+  
   // Alias asignement : store isValid property from emailState in emailIsValid
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
@@ -80,7 +84,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
